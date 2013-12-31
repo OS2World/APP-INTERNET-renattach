@@ -1,0 +1,28 @@
+renattach.o : \
+ renattach.c ..\config.h renattach.h strings-en.h \
+ utility.h getopt.h e:\bin\emx\include\ctype.h \
+ e:\bin\emx\include\memory.h e:\bin\emx\include\stdio.h \
+ e:\bin\emx\include\stdlib.h e:\bin\emx\include\malloc.h \
+ e:\bin\emx\include\string.h e:\bin\emx\include\signal.h \
+ e:\bin\emx\include\sys/signal.h e:\bin\emx\include\sys/types.h \
+ e:\bin\emx\include\sys/stat.h e:\bin\emx\include\sys/wait.h \
+ e:\bin\emx\include\unistd.h e:\bin\emx\include\io.h
+renattach.c :
+..\config.h :
+renattach.h :
+strings-en.h :
+utility.h :
+getopt.h :
+e:\bin\emx\include\ctype.h :
+e:\bin\emx\include\memory.h :
+e:\bin\emx\include\stdio.h :
+e:\bin\emx\include\stdlib.h :
+e:\bin\emx\include\malloc.h :
+e:\bin\emx\include\string.h :
+e:\bin\emx\include\signal.h :
+e:\bin\emx\include\sys/signal.h :
+e:\bin\emx\include\sys/types.h :
+e:\bin\emx\include\sys/stat.h :
+e:\bin\emx\include\sys/wait.h :
+e:\bin\emx\include\unistd.h :
+e:\bin\emx\include\io.h :

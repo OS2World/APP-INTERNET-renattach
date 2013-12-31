@@ -1,0 +1,49 @@
+*** configure.orig	Tue Oct 24 22:37:42 2006
+--- configure	Sat Oct 28 13:03:24 2006
+***************
+*** 3414,3421 ****
+  
+  
+  
+  
+! for ac_header in getopt.h memory.h stdlib.h string.h strings.h signal.h syslog.h unistd.h
+  do
+  as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
+  if eval "test \"\${$as_ac_Header+set}\" = set"; then
+--- 3414,3425 ----
+  
+  
+  
++ # removed getopt.h from list to conform with renattach 1.2.2 and
++ # reinstate compilation of separate getopt.h
++ # 
++ # for ac_header in getopt.h memory.h stdlib.h string.h strings.h signal.h syslog.h unistd.h
+  
+! for ac_header in memory.h stdlib.h string.h strings.h signal.h syslog.h unistd.h
+  do
+  as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
+  if eval "test \"\${$as_ac_Header+set}\" = set"; then
+***************
+*** 3912,3919 ****
+  
+  
+  
+  
+! for ac_func in execv fork ftruncate memset pipe strcasecmp strchr strncasecmp strrchr strstr getopt_long
+  do
+  as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
+  echo "$as_me:$LINENO: checking for $ac_func" >&5
+--- 3916,3928 ----
+  
+  
+  
++ # removed getopt_long from list to conform with renattach 1.2.2 and
++ # reinstate compilation of separate getopt.h
+  
+! # for ac_func in execv fork ftruncate memset pipe strcasecmp strchr \
+! #                strncasecmp strrchr strstr getopt_long
+! 
+! for ac_func in execv fork ftruncate memset pipe strcasecmp strchr strncasecmp strrchr strstr
+  do
+  as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
+  echo "$as_me:$LINENO: checking for $ac_func" >&5

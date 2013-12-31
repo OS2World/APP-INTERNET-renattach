@@ -1,0 +1,8 @@
+getopt1.o : \
+ getopt1.c ..\config.h getopt.h e:\bin\emx\include\ctype.h \
+ e:\bin\emx\include\stdio.h
+getopt1.c :
+..\config.h :
+getopt.h :
+e:\bin\emx\include\ctype.h :
+e:\bin\emx\include\stdio.h :

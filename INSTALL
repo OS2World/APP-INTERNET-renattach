@@ -1,0 +1,201 @@
+************************************************************************
+WARNING:
+	THIS SOFTWARE HAS BEEN DISCONTINUED. IT IS NO LONGER MAINTAINED.
+************************************************************************
+
+	The author recommends that you do not depend upon renattach to
+	filter emails for dangerous content. As of 2006, renattach used
+	on its own is not enough to filter potentially harmful emails.
+	Dangerous attachments, or other attacks, may pass through the
+	filter undetected. Please switch from renattach to some other
+	actively developed security system.
+						Jem E. Berkes
+						2006-03-19
+
+************************************************************************
+
+
+The build & install is automated by autoconf and automake. Basic steps:
+
+./configure
+make
+make install
+
+By default, the binary 'renattach' is put in '/usr/local/bin' and the 
+example conf file 'renattach.conf.ex' is put in '/usr/local/etc'. Please 
+run "./configure --help" to see all the options. For instance, to install 
+under your home directory: "./configure --prefix=$HOME"
+
+To customize your installation, modify the options in renattach.conf. Use 
+the command "renattach --settings" to see the active configuration.
+
+Since renattach is a standard UNIX filter, it can be installed into a wide
+variety of mailing systems. The filter reads a single email message as
+input at stdin, then writes the filtered output either to stdout or to a 
+pipe (external command) if the --pipe option is used.
+
+There are many ways to install renattach in both the user and site-wide
+contexts. The cases below are by no means exhaustive.
+
+
+=============================
+procmail for individual users
+=============================
+
+Most mail servers use procmail for local mail delivery. This is the 
+default configuration for Sendmail. In Postfix, main.cf has to include:
+mailbox_command = /usr/bin/procmail
+
+If your site uses procmail, then you can create the ".procmailrc" file in 
+your home directory to instruct procmail to run certain scripts. The 
+following basic ".procmailrc" will filter all incoming mail through 
+renattach. Please see "man procmailrc" to learn more about the format:
+
+# Filter mail through renattach, and wait for success exit code
+:0 wf
+| /path/to/renattach
+
+There is a minor complication when using renattach's "kill" feature since
+nothing will leave the filter. Procmail does not know to stop processing,
+so it will deliver a blank stub of a message to your mailbox. To prevent
+this, you can add this rule after renattach to handle killed messages:
+
+# If message is blank (killed), drop it and stop processing.
+:0
+*! .
+/dev/null
+
+
+=================================
+procmail for entire site (global)
+=================================
+
+If your site uses procmail, then you can take advantage of procmail's 
+site-wide filtering capabilities via the /etc/procmailrc configuration 
+file. You can use the same filtering 'rule' as in the above example for 
+individual users. Please see "man procmail" for more information.
+
+Please check to make sure that procmail does not run procmailrc 
+with root privileges. renattach SHOULD NOT run as 'root'.
+
+
+===================
+Postfix integration
+===================
+
+The Postfix MTA has a flexible modular design that makes it relatively
+easy to add content filters such as renattach. There are several
+advantages to installing renattach at the MTA level:
+
++	Tighter integration into the mail system, ensuring that all mail
+	is filtered (instead of relying on procmail operating correctly)
+
++	Possibility for both inbound and outbound SMTP filtering
+
++	Superior security, since the filter can run under dedicated UID
+
++	Superior feedback on filtering errors (mail bounces or temporary
+	failures) due to strict interpretation of filter exit codes. In
+	other words, if renattach encounters a temporary error such as
+	resource shortage or dead external pipe, mail will remain queued
+	and delivery will be attempted later. If renattach encounters a
+	fatal error (bad command usage) then mail will bounce.
+
+To install renattach, you only need to modify /etc/postfix/master.cf
+The following instructions are based on Postfix's FILTER_README file and 
+describe how to install renattach as a content filter for SMTP.
+
+1) Create a new user 'filter' with a disabled password, unique group, no 
+home directory and no login shell. /etc/passwd would have something like:
+filter:*:952:952:filter:/dev/null:/dev/null
+
+2) Insert the following into /etc/postfix/master.cf to define the 'filter' 
+service that uses the Postfix pipe program. Note the long second line; 
+this instructs Postfix to pipe mail into renattach using privileges of the 
+dedicated filter user. You can specify any renattach options you wish. 
+Here, we MUST use renattach's -p (or --pipe) to send the filtered output 
+to the Postfix 'sendmail' command. This re-injects the filtered message 
+back into the mail system. Do not include quotes around the sendmail 
+command line (this has changed in version 1.2.2).
+
+filter    unix  -       n       n       -       -       pipe
+  flags=q user=filter argv=renattach -l -p sendmail -i -f ${sender} -- ${recipient}
+
+The pipe option must be the last option specified, with everything after 
+it being taken as the command and arguments. Be sure to specify the full 
+path to the renattach and sendmail commands.
+
+The -l option additionally protects Postfix against a spammer's attack
+that causes a "mail forwarding loop" to relay spam. (See man page).
+
+3) Now that you have defined a new 'filter' module, you can instruct the 
+smtp module to use 'filter' as a content filter. This is done simply by 
+editing /etc/postfix/master.cf and adding the -o content_filter=filter 
+option to smtpd. This means that the smtp service should appear like this:
+
+smtp      inet  n       -       n       -       -       smtpd
+	-o content_filter=filter
+
+4) Save master.cf and run 'postfix reload'. Now test your configuration.  
+Any mail coming into your system via SMTP should now leave with the
+additional renattach headers. The system mail logs should indicate mail
+being passed with relay=filter. There should also be log entries from the
+postfix/pipe program. Make sure use_syslog is enabled so that your mail
+logs show filtered attachments and message-id's. Send some dangerous
+attachments to confirm that they are filtered and logged.
+
+It's important to understand how mail now flows through your system. The 
+following illustrates step-by-step how mail is processed with the above 
+configuration:
+
+a. Client connects to server:25 (smtpd) and uploads an email
+b. smtpd relays the mail to the content filter, the 'filter' service
+c. The 'filter' service pipes the mail to renattach
+d. renattach pipes its output to the Postfix sendmail command, specifying  
+   as command line options the original sender and recipient(s). If that
+   sendmail command fails in any way, renattach's exit code tells Postfix
+   to keep the mail queued and retry later (no mail is lost).
+e. The sendmail command locally re-injects the mail into the system
+f. Delivery continues as normal
+
+
+====================
+sendmail integration
+====================
+
+While the procmail-based methods described earlier are probably the best
+way to install renattach on a sendmail server, it is also possible to
+install renattach as the local delivery agent (Mlocal option). In 
+this configuration, renattach sits between sendmail and procmail.
+
+Installations typically rely on procmail. The following example shows a
+standard configuration before renattach is installed:
+
+Mlocal,		P=/usr/bin/procmail, F=lsDFMAw5:/|@qSPfhn9,
+		S=EnvFromL/HdrFromL, R=EnvToL/HdrToL, T=DNS/RFC822/X-Unix,
+		A=procmail -t -Y -a $h -d $u
+
+Instead of invoking procmail as the local mail delivery agent, sendmail
+can invoke renattach and instruct the filter to pipe its output to
+procmail (or any other program, as required). Few changes are required to
+the above configuration:
+
+Mlocal,		P=/usr/local/bin/renattach, F=lsDFMAw5:/|@qSPhn9,
+		S=EnvFromL/HdrFromL, R=EnvToL/HdrToL, T=DNS/RFC822/X-Unix,
+		A=renattach --pipe /usr/bin/procmail -f $g -t -Y -d $u
+
+Note the following:
+
+o The F=f (lowercase 'f' flag) must be removed from the flags field, 
+  because this automatically places the -f option in the wrong place.
+  The procmail -f option is manually specified after --pipe.
+
+o The procmail -a feature (for passing meta data) appeared to be causing
+  strange problems. Removing it solved delivery problems we encountered.
+
+
+=========================================================================
+sendmail support has NOT been thoroughly tested. Details of sendmail (and 
+other MTA) installation is beyond the scope of this document. These basic 
+installation instructions are provided as a convenience.
+=========================================================================

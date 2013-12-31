@@ -1,0 +1,11 @@
+utility.o : \
+ utility.c e:\bin\emx\include\stdio.h \
+ e:\bin\emx\include\stdlib.h e:\bin\emx\include\malloc.h \
+ e:\bin\emx\include\string.h e:\bin\emx\include\ctype.h utility.h
+utility.c :
+e:\bin\emx\include\stdio.h :
+e:\bin\emx\include\stdlib.h :
+e:\bin\emx\include\malloc.h :
+e:\bin\emx\include\string.h :
+e:\bin\emx\include\ctype.h :
+utility.h :

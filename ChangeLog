@@ -1,0 +1,116 @@
+WARNING:
+	THIS SOFTWARE HAS BEEN DISCONTINUED. IT IS NO LONGER MAINTAINED.
+
+1.2.4 changes
+=============
+- New --loop option removes Delivered-To headers from the input message
+  This defends Postfix against a "mail forwarding loop" spam relay trick
+
+1.2.3 changes
+=============
+- Fixed a MIME parser bug where some headers were incorrectly sanitized
+  (Thanks to Adam Harper <aharper@fullers-group.com> for providing the patch)
+- Added support for '#' to suppress new_extension, submitted by bhoc@pentagroup.ch
+- Fixed build scripts to handle getopt properly. Now builds cleanly on FreeBSD
+
+1.2.2 changes
+==============
+- [SECURITY] The --pipe now directly executes command/args, instead of popen()
+  NOTE new --pipe syntax, do not specify quotes around command and its args!
+  (Thanks to Victor.Duchovni@MorganStanley.com for illustrating the problem)
+- Added preprocessor directives to help with OS/2, win32, other builds
+  (Thanks to sad@mailaps.org for help tweaking the build)
+- Relaxed RFC 2047 decoder to support more clients (e.g. The Bat)
+  (Thanks to IL <lookin@oltamar.ru> for reporting the problem)
+- Fixed base64 decoding bug affecting non-English file names
+- Added htmlwarn_pos option to specify insertion position for warning_html
+- Added warning_text, warning_html options to add warnings to message body
+- Fixed compile error on signal()
+
+1.2.1 changes
+=============
+- [SECURITY] Shell characters are now stripped when using --pipe
+- Now keeps headers inserted by previous renattach passes, using Old- prefix
+- Added full_rename option to allow selection of full or partial rename scheme
+- Added pass_contentid option to pass MIME Content-ID through filter (risky)
+- Enhanced badlist format to include specific actions for matches inside ZIP
+- Added search_zip option to enable file name searching inside ZIP archives
+- Added kill_exe option to kill executable binary attachments (like delete_exe)
+- Now supports Outlook-style multiline encoded filenames
+
+1.2.0 changes
+=============
+- Changed --excode (extra exitcode) to more sensible value
+- Added new .conf options to allow specific subjects for ban, exe delete, etc.
+- Added default add_subject to inform user of filtering (use # to disable)
+
+1.2.0rc3 changes
+================
+- Created man page for version 1.2.0
+- Tested and documented sendmail compatibility (local delivery agent)
+- Enhanced badlist format; specific actions can override default action
+
+1.2.0rc2 changes
+================
+- If message Subject is to be modified but doesn't exist, Subject: is added
+- Removed default add_subject, otherwise there is no way to disable feature
+- Enhanced banned_files format to allow substring matches (prepend '/')
+- Relaxed MIME parser to allow whitespace between MIME_NAME and equals sign
+- Added more leeway to executable binary scan (used by delete_exe feature)
+- The .conf file parser can now deal with CRLF (DOS format) text files
+- Tested and documented postfix compatibility (master.cf / content_filter)
+- Added --pipe option to send output to a command instead of stdout
+- Improved behaviour of --excode and --version options
+- Added --settings option to view configuration
+
+1.2.0rc1 changes
+================
+- COMPLETE rewrite of software. Now much more structured, flexible
+- Now uses autoconf/automake and getopt for more standard behaviour
+- All new command line options and .conf file format
+- Supports RFC 2047, RFC 2231, MIME and common variations
+- Other changes too numerous to list here. See documentation.
+
+1.1.1 changes
+=============
+- Added a FAQ
+- Modified scripts to be more Solaris-friendly
+- The MIME content-type is renamed whenever a file is renamed
+- Uses generic filename if encoded filename is found (remove in defs.h)
+- Now uses syslog. Enabled by default (remove in defs.h)
+- More checks for buffer overflows in make_safe()
+- Confirmed that it works fine with postfix and qmail
+- The -v switch now shows version string
+- Improved efficiency by strncmp'ing before sscanf'ing
+
+1.1.0 changes
+=============
+- Added scripts! configure, make, install, uninstall
+- Wrote a manpage
+- Converted code to 100% pure C
+- Upper limit placed on growing-dynamic-buffer algorithm
+- Reads good and bad extensions lists from .conf file
+- Partial mode renamed to badlist mode
+- Default bad list made much more complete (see renattach.conf)
+
+1.02 changes
+============
+- Improved some error handling (nothing critical)
+- Added goodlist mode; renames all except 'good' extensions
+- Made code in is_match() more sleek
+- Can now act as a procmail filter. See README-procmail
+- Added switch to write to stdout [from Colin McKinnon]
+- Modified file rename technique [from Colin McKinnon]
+
+1.01 changes
+============
+- Added MTA_TAIL (for customizing MTA switches)
+- Added default sendmail switch (-i) to fix odd forwarding behaviour
+
+1.00 changes
+============
+- Now released under the GNU General Public License (GNU GPL)
+- Greatly improved MIME file name parser
+- Now uses dynamic buffer allocation
+- Cleverly placed names can no longer "slip past" the filter
+- Other minor changes (thanks to David F. Skoll for his suggestions)

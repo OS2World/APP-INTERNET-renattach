@@ -1,0 +1,64 @@
+*** Makefile.in.orig	Tue Oct 24 22:46:04 2006
+--- Makefile.in	Wed Oct  6 04:50:10 2004
+***************
+*** 51,64 ****
+  binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+  PROGRAMS = $(bin_PROGRAMS)
+  am_renattach_OBJECTS = renattach.$(OBJEXT) settings.$(OBJEXT) \
+! 	utility.$(OBJEXT)
+  renattach_OBJECTS = $(am_renattach_OBJECTS)
+  renattach_LDADD = $(LDADD)
+  DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+  depcomp = $(SHELL) $(top_srcdir)/depcomp
+  am__depfiles_maybe = depfiles
+! @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/renattach.Po \
+! @AMDEP_TRUE@	./$(DEPDIR)/settings.Po ./$(DEPDIR)/utility.Po
+  COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+  	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+  CCLD = $(CC)
+--- 51,65 ----
+  binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+  PROGRAMS = $(bin_PROGRAMS)
+  am_renattach_OBJECTS = renattach.$(OBJEXT) settings.$(OBJEXT) \
+! 	utility.$(OBJEXT) getopt.$(OBJEXT) getopt1.$(OBJEXT)
+  renattach_OBJECTS = $(am_renattach_OBJECTS)
+  renattach_LDADD = $(LDADD)
+  DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
+  depcomp = $(SHELL) $(top_srcdir)/depcomp
+  am__depfiles_maybe = depfiles
+! @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/getopt.Po ./$(DEPDIR)/getopt1.Po \
+! @AMDEP_TRUE@	./$(DEPDIR)/renattach.Po ./$(DEPDIR)/settings.Po \
+! @AMDEP_TRUE@	./$(DEPDIR)/utility.Po
+  COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+  	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+  CCLD = $(CC)
+***************
+*** 142,148 ****
+  target_alias = @target_alias@
+  AM_CFLAGS = -pedantic -Wall -DCONF_DIR=\"$(sysconfdir)\"
+  dist_man_MANS = renattach.1
+! renattach_SOURCES = renattach.c settings.c utility.c renattach.h strings-en.h utility.h
+  all: all-am
+  
+  .SUFFIXES:
+--- 143,151 ----
+  target_alias = @target_alias@
+  AM_CFLAGS = -pedantic -Wall -DCONF_DIR=\"$(sysconfdir)\"
+  dist_man_MANS = renattach.1
+! renattach_SOURCES = renattach.c settings.c utility.c getopt.c getopt1.c \
+! 	renattach.h strings-en.h utility.h getopt.h
+! 
+  all: all-am
+  
+  .SUFFIXES:
+***************
+*** 209,214 ****
+--- 212,219 ----
+  distclean-compile:
+  	-rm -f *.tab.c
+  
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getopt.Po@am__quote@
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getopt1.Po@am__quote@
+  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/renattach.Po@am__quote@
+  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/settings.Po@am__quote@
+  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utility.Po@am__quote@

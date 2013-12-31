@@ -1,0 +1,16 @@
+*** renattach.c.orig	Tue Oct 24 22:33:22 2006
+--- renattach.c	Sat Oct 28 13:07:46 2006
+***************
+*** 26,33 ****
+--- 26,36 ----
+  #include "renattach.h"
+  #include "strings-en.h"
+  #include "utility.h"
++ /*
+  #include <ctype.h>
+  #include <getopt.h>
++ */
++ #include "getopt.h"
+  #include <memory.h>
+  #include <stdio.h>
+  #include <stdlib.h>

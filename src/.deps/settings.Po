@@ -1,0 +1,15 @@
+settings.o : \
+ settings.c ..\config.h renattach.h strings-en.h utility.h \
+ e:\bin\emx\include\memory.h e:\bin\emx\include\stdio.h \
+ e:\bin\emx\include\stdlib.h e:\bin\emx\include\malloc.h \
+ e:\bin\emx\include\string.h
+settings.c :
+..\config.h :
+renattach.h :
+strings-en.h :
+utility.h :
+e:\bin\emx\include\memory.h :
+e:\bin\emx\include\stdio.h :
+e:\bin\emx\include\stdlib.h :
+e:\bin\emx\include\malloc.h :
+e:\bin\emx\include\string.h :

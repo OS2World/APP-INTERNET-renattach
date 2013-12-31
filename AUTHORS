@@ -1,0 +1,22 @@
+Jem Berkes [ www.sysdesign.ca ] is the original and primary author of
+renattach. Version 1.2.0 is a complete rewrite with all-original code.
+
+Many people around the world have helped test and improve this filter.  
+In particular, I would like to thank the following people for their
+contributions to this project:
+
+Stefan A. Deutscher <sad@mailaps.org> has helped improve renattach so it 
+builds smoothly on a wider variety of platforms (including OS/2). He has 
+also contributed FreeBSD and other ports.
+
+Richard Gadsden, at the Medical University of South Carolina, has
+suggested and debugged many software improvements over the years. He has
+also tested renattach on a major mail server and provided valuable
+feedback about bugs.
+
+Hal Murray <hmurray@suespammers.org> contributed a collection of real
+email viruses and worms that helped verify the filter's effectiveness.
+
+Colin McKinnon suggested several features and contributed code to the
+1.1.x series. The improved renaming technique and procmail-compatible 
+filtering he suggested were built into version 1.2.0.

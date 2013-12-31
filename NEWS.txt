@@ -1,0 +1,29 @@
+************************************************************************
+WARNING:
+	THIS SOFTWARE HAS BEEN DISCONTINUED. IT IS NO LONGER MAINTAINED.
+************************************************************************
+
+	The author recommends that you do not depend upon renattach to
+	filter emails for dangerous content. As of 2006, renattach used
+	on its own is not enough to filter potentially harmful emails.
+	Dangerous attachments, or other attacks, may pass through the
+	filter undetected. Please switch from renattach to some other
+	actively developed security system.
+						Jem E. Berkes
+						2006-03-19
+
+************************************************************************
+
+
+If you are upgrading from version 1.2.1 or earlier, the important thing
+to note is the change in the --pipe feature usage (since 1.2.2).
+
+The -p or --pipe option now has to be the last option specified on the 
+command line. Any arguments after this are taken as-is, interpreted as 
+the command to execute and its arguments.
+
+Quotation marks should NOT be included around the entire command to 
+execute. Also be sure to include the full pathname of the command, since 
+there is no PATH search for the command. An example of use:
+
+renattach -d -p /usr/sbin/sendmail -i user@domain
